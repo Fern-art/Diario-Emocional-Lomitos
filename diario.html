@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mi Diario Emocional con mi Lomito</title>
+  <title>Mi Diario Emocional</title>
   <link rel="manifest" href="manifest.json">
   <style>
     body {
@@ -13,11 +14,11 @@
       margin: 0;
       padding: 1rem;
     }
-    h1, h2 {
+    h1 {
       text-align: center;
       color: #d65a31;
     }
-    .emotions, .lomito-acciones {
+    .emotions, .actividades {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
@@ -66,7 +67,7 @@
   </style>
 </head>
 <body>
-  <h1>¿Cómo te sientes hoy?</h1>
+  <h1>¿Cómo te sientes hoy con tu lomito?</h1>
   <div class="emotions">
     <button onclick="registrar('Feliz 😊')">Feliz 😊</button>
     <button onclick="registrar('Triste 😢')">Triste 😢</button>
@@ -76,27 +77,25 @@
     <button onclick="registrar('Motivado 💪')">Motivado 💪</button>
   </div>
 
-  <h2>¿Qué hiciste hoy con tu lomito?</h2>
-  <div class="lomito-acciones">
-    <button onclick="registrarLomito('Salí a caminar 🐾')">Salí a caminar 🐾</button>
-    <button onclick="registrarLomito('Jugamos 🐶🎾')">Jugamos 🐶🎾</button>
-    <button onclick="registrarLomito('Le di caricias 🤗')">Le di caricias 🤗</button>
-    <button onclick="registrarLomito('Me acompañó en casa 🏡')">Me acompañó 🏡</button>
-    <button onclick="registrarLomito('Estuvo triste o enfermito 😔')">Estuvo triste 😔</button>
-    <button onclick="registrarLomito('Me hizo reír 😂')">Me hizo reír 😂</button>
+  <h2>¿Qué hicieron juntos?</h2>
+  <div class="actividades">
+    <button onclick="registrarActividad('Paseamos 🚶‍♂️🐶')">Paseamos 🚶‍♂️🐶</button>
+    <button onclick="registrarActividad('Jugamos 🦴')">Jugamos 🦴</button>
+    <button onclick="registrarActividad('Dormimos juntos 💤')">Dormimos juntos 💤</button>
+    <button onclick="registrarActividad('Lo abracé 🥰')">Lo abracé 🥰</button>
+    <button onclick="registrarActividad('Fuimos al parque 🌳')">Fuimos al parque 🌳</button>
+    <button onclick="registrarActividad('Solo estuvimos juntos 💖')">Solo estuvimos juntos 💖</button>
   </div>
 
-  <textarea id="nota" placeholder="Escribe una nota o reflexión sobre tu día o tu lomito..."></textarea>
+  <textarea id="nota" placeholder="Escribe una nota o reflexión..."></textarea>
   <button onclick="guardarNota()">Guardar Nota</button>
   <button onclick="exportarPDF()">Exportar PDF</button>
   <button onclick="mostrarGrafica()">📉 Ver Gráfica Emocional</button>
-
   <div class="log" id="registro"></div>
   <canvas id="grafica"></canvas>
-
-  <div class="footer">Susurros del Corazón & Diario de un Lomito</div>
+  <div class="footer">Susurros del Corazón 🐾</div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="diario.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

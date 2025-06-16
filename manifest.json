@@ -1,7 +1,8 @@
+
 {
-  "name": "Mi Diario Emocional con mi Lomito",
+  "name": "Diario Emocional con mi Lomito",
   "short_name": "Diario Lomito",
-  "start_url": "./diario.html",
+  "start_url": "diario.html",
   "display": "standalone",
   "background_color": "#fff7f0",
   "theme_color": "#d65a31",
