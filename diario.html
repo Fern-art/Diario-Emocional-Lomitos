@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Diario Emocional con mi Lomito</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #fff7f0;
+      color: #333;
+      margin: 0;
+      padding: 1rem;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #d65a31;
+    }
+    .emotions, .lomito-acciones {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #ffd9c0;
+      transition: 0.2s;
+    }
+    button:hover {
+      background-color: #ffbb9e;
+    }
+    textarea {
+      width: 100%;
+      height: 80px;
+      margin-top: 15px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .log {
+      margin-top: 20px;
+    }
+    canvas {
+      margin-top: 30px;
+      width: 100% !important;
+      max-width: 500px;
+      height: auto !important;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-style: italic;
+      font-size: 14px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <h1>¿Cómo te sientes hoy?</h1>
+  <div class="emotions">
+    <button onclick="registrar('Feliz 😊')">Feliz 😊</button>
+    <button onclick="registrar('Triste 😢')">Triste 😢</button>
+    <button onclick="registrar('Ansioso 😰')">Ansioso 😰</button>
+    <button onclick="registrar('Irritado 😠')">Irritado 😠</button>
+    <button onclick="registrar('En paz 🧘')">En paz 🧘</button>
+    <button onclick="registrar('Motivado 💪')">Motivado 💪</button>
+  </div>
+
+  <h2>¿Qué hiciste hoy con tu lomito?</h2>
+  <div class="lomito-acciones">
+    <button onclick="registrarLomito('Salí a caminar 🐾')">Salí a caminar 🐾</button>
+    <button onclick="registrarLomito('Jugamos 🐶🎾')">Jugamos 🐶🎾</button>
+    <button onclick="registrarLomito('Le di caricias 🤗')">Le di caricias 🤗</button>
+    <button onclick="registrarLomito('Me acompañó en casa 🏡')">Me acompañó 🏡</button>
+    <button onclick="registrarLomito('Estuvo triste o enfermito 😔')">Estuvo triste 😔</button>
+    <button onclick="registrarLomito('Me hizo reír 😂')">Me hizo reír 😂</button>
+  </div>
+
+  <textarea id="nota" placeholder="Escribe una nota o reflexión sobre tu día o tu lomito..."></textarea>
+  <button onclick="guardarNota()">Guardar Nota</button>
+  <button onclick="exportarPDF()">Exportar PDF</button>
+  <button onclick="mostrarGrafica()">📉 Ver Gráfica Emocional</button>
+
+  <div class="log" id="registro"></div>
+  <canvas id="grafica"></canvas>
+
+  <div class="footer">Susurros del Corazón & Diario de un Lomito</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="diario.js"></script>
+</body>
+</html>
