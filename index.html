@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Diario Emocional</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #fff7f0;
+      color: #333;
+      margin: 0;
+      padding: 1rem;
+    }
+    h1 {
+      text-align: center;
+      color: #d65a31;
+    }
+    .emotions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 20px 0;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #ffd9c0;
+      transition: 0.2s;
+    }
+    button:hover {
+      background-color: #ffbb9e;
+    }
+    textarea {
+      width: 100%;
+      height: 80px;
+      margin-top: 15px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    select, label {
+      margin-top: 10px;
+      display: block;
+      font-size: 16px;
+    }
+    .log {
+      margin-top: 20px;
+    }
+    canvas {
+      margin-top: 30px;
+      width: 100% !important;
+      max-width: 500px;
+      height: auto !important;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-style: italic;
+      font-size: 14px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <h1>¿Cómo te sientes hoy?</h1>
+  <div class="emotions">
+    <button onclick="registrar('Feliz 😊')">Feliz 😊</button>
+    <button onclick="registrar('Triste 😢')">Triste 😢</button>
+    <button onclick="registrar('Ansioso 😰')">Ansioso 😰</button>
+    <button onclick="registrar('Irritado 😠')">Irritado 😠</button>
+    <button onclick="registrar('En paz 🧘')">En paz 🧘</button>
+    <button onclick="registrar('Motivado 💪')">Motivado 💪</button>
+  </div>
+
+  <label for="paseo">¿Saliste de paseo con tu lomito?</label>
+  <select id="paseo">
+    <option value="Sí">Sí</option>
+    <option value="No">No</option>
+  </select>
+
+  <textarea id="nota" placeholder="Escribe una nota o reflexión..."></textarea>
+  <button onclick="guardarNota()">Guardar Nota</button>
+  <button onclick="exportarPDF()">Exportar PDF</button>
+  <button onclick="mostrarGrafica()">📉 Ver Gráfica Emocional</button>
+  <div class="log" id="registro"></div>
+  <canvas id="grafica"></canvas>
+  <div class="footer">Susurros del Corazón</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

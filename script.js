@@ -1,60 +1,63 @@
 
-let emociones = [];
-let actividades = [];
-let notas = [];
+let registros = [];
 
-function registrar(estado) {
-  emociones.push({ estado, fecha: new Date().toLocaleString() });
-  mostrarRegistro();
-}
-
-function registrarActividad(actividad) {
-  actividades.push({ actividad, fecha: new Date().toLocaleString() });
-  mostrarRegistro();
+function registrar(emocion) {
+  const paseo = document.getElementById('paseo').value;
+  const fecha = new Date().toLocaleString();
+  registros.push({ fecha, emocion, paseo, nota: '' });
+  actualizarRegistro();
 }
 
 function guardarNota() {
-  const texto = document.getElementById("nota").value;
-  if (texto) {
-    notas.push({ texto, fecha: new Date().toLocaleString() });
-    document.getElementById("nota").value = "";
-    mostrarRegistro();
+  const nota = document.getElementById('nota').value;
+  if (registros.length > 0) {
+    registros[registros.length - 1].nota = nota;
+    document.getElementById('nota').value = '';
+    actualizarRegistro();
+  } else {
+    alert('Primero selecciona una emoción.');
   }
 }
 
-function mostrarRegistro() {
-  const registro = document.getElementById("registro");
-  registro.innerHTML = "";
-  emociones.slice().reverse().forEach(e => {
-    const act = actividades.find(a => a.fecha === e.fecha);
-    const nota = notas.find(n => n.fecha === e.fecha);
-    registro.innerHTML += `<p><strong>${e.fecha}</strong> - Me sentí: ${e.estado} ${act ? " | Actividad: " + act.actividad : ""} ${nota ? "<br>Nota: " + nota.texto : ""}</p>`;
-  });
+function actualizarRegistro() {
+  const contenedor = document.getElementById('registro');
+  contenedor.innerHTML = registros.map(r =>
+    `<p><strong>${r.fecha}</strong><br>Emoción: ${r.emocion}<br>Paseo con lomito: ${r.paseo}<br>Nota: ${r.nota}</p>`
+  ).join('');
 }
 
 function exportarPDF() {
-  const contenido = document.getElementById("registro").innerText;
-  const blob = new Blob([contenido], { type: "application/pdf" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "diario_emocional.pdf";
-  link.click();
+  const contenido = registros.map(r => `Fecha: ${r.fecha}\nEmoción: ${r.emocion}\nPaseo con lomito: ${r.paseo}\nNota: ${r.nota}\n\n`).join('');
+  const blob = new Blob([contenido], { type: 'text/plain' });
+  const enlace = document.createElement('a');
+  enlace.href = URL.createObjectURL(blob);
+  enlace.download = 'diario_emocional.txt';
+  enlace.click();
 }
 
 function mostrarGrafica() {
   const ctx = document.getElementById('grafica').getContext('2d');
-  const etiquetas = [...new Set(emociones.map(e => e.estado))];
-  const datos = etiquetas.map(e => emociones.filter(x => x.estado === e).length);
+  const conteo = {};
+  registros.forEach(r => {
+    conteo[r.emocion] = (conteo[r.emocion] || 0) + 1;
+  });
 
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: etiquetas,
+      labels: Object.keys(conteo),
       datasets: [{
         label: 'Frecuencia emocional',
-        data: datos,
+        data: Object.values(conteo),
         backgroundColor: '#ffbb9e'
       }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        title: { display: true, text: 'Resumen Emocional' }
+      }
     }
   });
 }
