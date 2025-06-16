@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mi Diario Emocional</title>
+  <title>Mi Diario Emocional con mi Lomito</title>
   <link rel="manifest" href="manifest.json">
   <style>
     body {
@@ -35,19 +35,13 @@
     button:hover {
       background-color: #ffbb9e;
     }
-    textarea {
+    textarea, select, input[type="text"] {
       width: 100%;
-      height: 80px;
       margin-top: 15px;
       padding: 10px;
       font-size: 16px;
       border-radius: 8px;
       border: 1px solid #ccc;
-    }
-    select, label {
-      margin-top: 10px;
-      display: block;
-      font-size: 16px;
     }
     .log {
       margin-top: 20px;
@@ -81,19 +75,29 @@
     <button onclick="registrar('Motivado 💪')">Motivado 💪</button>
   </div>
 
-  <label for="paseo">¿Saliste de paseo con tu lomito?</label>
-  <select id="paseo">
+  <label for="paseo">¿Saliste de paseo con tu lomito hoy?</label>
+  <select id="paseo" onchange="mostrarComentarioPaseo()">
+    <option value="">Selecciona una opción</option>
     <option value="Sí">Sí</option>
     <option value="No">No</option>
   </select>
+
+  <div id="comentarioPaseoContainer" style="display:none;">
+    <p>¡Excelente! 🐾 ¿Cómo te hizo sentir el paseo?</p>
+    <input type="text" id="comentarioPaseo" placeholder="Me hizo sentir...">
+  </div>
 
   <textarea id="nota" placeholder="Escribe una nota o reflexión..."></textarea>
   <button onclick="guardarNota()">Guardar Nota</button>
   <button onclick="exportarPDF()">Exportar PDF</button>
   <button onclick="mostrarGrafica()">📉 Ver Gráfica Emocional</button>
+  <button onclick="exportarPalabrasClave()">🔑 Exportar Palabras Clave</button>
+
   <div class="log" id="registro"></div>
   <canvas id="grafica"></canvas>
-  <div class="footer">Susurros del Corazón</div>
+  <canvas id="graficaClaves"></canvas>
+
+  <div class="footer">Susurros del Corazón con mi lomito 🐶</div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
