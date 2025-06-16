@@ -1,38 +1,98 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mi Diario Emocional con Lomito</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <title>Mi Diario con mi Lomito</title>
+  <link rel="manifest" href="manifest.json">
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #fff7f0;
+      color: #333;
+      margin: 0;
+      padding: 1rem;
+    }
+    h1 {
+      text-align: center;
+      color: #d65a31;
+    }
+    .section {
+      margin: 20px 0;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="radio"] {
+      margin-right: 5px;
+    }
+    .respuestaPaseo {
+      margin-top: 10px;
+      font-style: italic;
+      color: #555;
+    }
+    textarea {
+      width: 100%;
+      height: 80px;
+      margin-top: 15px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #ffd9c0;
+      transition: 0.2s;
+      margin-right: 10px;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #ffbb9e;
+    }
+    .log {
+      margin-top: 20px;
+    }
+    canvas {
+      margin-top: 30px;
+      width: 100% !important;
+      max-width: 500px;
+      height: auto !important;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .sticker {
+      max-width: 150px;
+      display: block;
+      margin: 20px auto;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-style: italic;
+      font-size: 14px;
+      color: #999;
+    }
+  </style>
 </head>
 <body>
-  <h1>¿Cómo te sientes hoy?</h1>
-  <input type="text" id="fecha" placeholder="Selecciona una fecha" readonly>
-  <div class="emotions">
-    <button onclick="registrar('Feliz 😊')">Feliz 😊</button>
-    <button onclick="registrar('Triste 😢')">Triste 😢</button>
-    <button onclick="registrar('Ansioso 😰')">Ansioso 😰</button>
-    <button onclick="registrar('Irritado 😠')">Irritado 😠</button>
-    <button onclick="registrar('En paz 🧘')">En paz 🧘</button>
-    <button onclick="registrar('Motivado 💪')">Motivado 💪</button>
-  </div>
-  <textarea id="nota" placeholder="Escribe una nota o reflexión..."></textarea>
-  <div class="walk-question">
-    <p>¿Saliste a pasear con tu lomito hoy?</p>
-    <button onclick="responderPaseo(true)">Sí</button>
-    <button onclick="responderPaseo(false)">No</button>
-    <div id="respuestaPaseo" class="respuesta"></div>
-  </div>
-  <button onclick="guardarNota()">Guardar Nota</button>
-  <button onclick="exportarPalabrasClave()">Exportar Palabras Clave</button>
-  <button onclick="exportarResumenSemanal()">Resumen Semanal</button>
-  <div class="log" id="registro"></div>
-  <canvas id="graficaPalabras"></canvas>
-  <div class="footer">Susurros del Corazón 🐾</div>
-  <script src="script.js"></script>
-</body>
+  <h1>¿Cómo te fue hoy con tu lomito?</h1>  <div class="section">
+    <label>¿Saliste a pasear con tu lomito hoy?</label>
+    <input type="radio" name="paseo" value="si" onclick="respuestaPaseo('sí')">Sí
+    <input type="radio" name="paseo" value="no" onclick="respuestaPaseo('no')">No
+    <div class="respuestaPaseo" id="respuestaPaseo"></div>
+  </div>  <div class="section">
+    <label>¿Cómo te hizo sentir hoy tu lomito?</label>
+    <textarea id="nota" placeholder="Escribe una nota o reflexión..."></textarea>
+  </div><button onclick="guardarNota()">Guardar Nota</button> <button onclick="exportarPDF()">Exportar Notas</button> <button onclick="mostrarGraficaPalabras()">📊 Ver Resumen de Palabras</button> <button onclick="exportarResumenSemanal()">📥 Exportar Semana</button>
+
+  <div id="sticker-container"></div>
+  <canvas id="graficaPalabras"></canvas>  <div class="log" id="registro"></div>
+  <div class="footer">Susurros del Corazón con mi Lomito 🐾</div>  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>  <script src="script.js"></script></body>
 </html>
