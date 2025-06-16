@@ -1,119 +1,88 @@
 let registros = [];
+let palabrasClaves = {};
 
 function registrar(emocion) {
-  document.body.dataset.emocion = emocion;
+  const fecha = new Date().toLocaleString();
+  registros.push({ emocion, fecha });
+  mostrarRegistro();
 }
 
 function mostrarComentarioPaseo() {
   const paseo = document.getElementById("paseo").value;
-  const cont = document.getElementById("comentarioPaseoContainer");
-  cont.style.display = paseo === "Sí" ? "block" : "none";
+  const extra = document.getElementById("extraComentario");
+  extra.style.display = paseo === "sí" ? "block" : "none";
 }
 
 function guardarNota() {
-  const emocion = document.body.dataset.emocion || "Sin seleccionar";
-  const nota = document.getElementById("nota").value.trim();
+  const nota = document.getElementById("nota").value;
   const paseo = document.getElementById("paseo").value;
-  const comentario = paseo === "Sí" ? document.getElementById("comentarioPaseo").value.trim() : "";
+  const comentarioLomito = document.getElementById("comentarioLomito").value;
   const fecha = new Date().toLocaleString();
-
-  registros.push({ fecha, emocion, nota, paseo, comentario });
-  actualizarRegistro();
-  limpiarCampos();
+  if (comentarioLomito) {
+    extraerPalabrasClave(comentarioLomito);
+  }
+  registros.push({ nota, paseo, comentarioLomito, fecha });
+  mostrarRegistro();
 }
 
-function actualizarRegistro() {
-  const registroDiv = document.getElementById("registro");
-  registroDiv.innerHTML = registros.map(r =>
-    `<p><strong>${r.fecha}</strong><br>Emoción: ${r.emocion}<br>Paseo: ${r.paseo}<br>${r.comentario ? "Comentario: " + r.comentario + "<br>" : ""}Nota: ${r.nota}</p><hr>`
-  ).join("");
-}
-
-function limpiarCampos() {
-  document.getElementById("nota").value = "";
-  document.getElementById("paseo").value = "";
-  document.getElementById("comentarioPaseo").value = "";
-  document.getElementById("comentarioPaseoContainer").style.display = "none";
-  document.body.dataset.emocion = "";
-}
-
-function exportarPDF() {
-  const contenido = registros.map(r => 
-    `${r.fecha}\nEmoción: ${r.emocion}\nPaseo: ${r.paseo}\n${r.comentario ? "Comentario: " + r.comentario + "\n" : ""}Nota: ${r.nota}\n\n`
-  ).join("");
-  const blob = new Blob([contenido], { type: "text/plain;charset=utf-8" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "diario_lomito.txt";
-  link.click();
+function mostrarRegistro() {
+  const div = document.getElementById("registro");
+  div.innerHTML = "";
+  registros.forEach((reg, i) => {
+    div.innerHTML += `<p><strong>[${reg.fecha}]</strong><br>Emoción: ${reg.emocion || '-'}<br>Nota: ${reg.nota || '-'}<br>Paseo: ${reg.paseo || '-'}<br>Comentario: ${reg.comentarioLomito || '-'}</p>`;
+  });
 }
 
 function mostrarGrafica() {
-  const emociones = {};
-  registros.forEach(r => {
-    emociones[r.emocion] = (emociones[r.emocion] || 0) + 1;
-  });
+  const emociones = registros.map(r => r.emocion).filter(Boolean);
+  const conteo = {};
+  emociones.forEach(e => conteo[e] = (conteo[e] || 0) + 1);
 
   const ctx = document.getElementById("grafica").getContext("2d");
   new Chart(ctx, {
     type: "bar",
     data: {
-      labels: Object.keys(emociones),
+      labels: Object.keys(conteo),
       datasets: [{
-        label: "Emociones registradas",
-        data: Object.values(emociones),
-        backgroundColor: "#ffa07a",
+        label: "Frecuencia emocional",
+        data: Object.values(conteo),
+        backgroundColor: "#d65a31"
       }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        title: { display: true, text: "Gráfica Emocional" }
-      }
+    }
+  });
+}
+
+function extraerPalabrasClave(texto) {
+  const claves = ["feliz", "amada", "tranquila", "agradecido", "menos ansioso", "acompañado", "relajada", "animado", "en paz", "mejor", "cuidado", "contento", "menos sola", "conectada", "ayudó", "sonreí", "mi día cambió"];
+  claves.forEach(palabra => {
+    if (texto.toLowerCase().includes(palabra)) {
+      palabrasClaves[palabra] = (palabrasClaves[palabra] || 0) + 1;
     }
   });
 }
 
 function exportarPalabrasClave() {
-  const claves = {};
-  registros.forEach(r => {
-    if (r.comentario) {
-      const palabras = r.comentario.toLowerCase().split(/[\s,;.]+/);
-      palabras.forEach(p => {
-        if (p.length > 3) {
-          claves[p] = (claves[p] || 0) + 1;
-        }
-      });
-    }
-  });
-
-  // Mostrar en gráfica
   const ctx = document.getElementById("graficaClaves").getContext("2d");
   new Chart(ctx, {
     type: "bar",
     data: {
-      labels: Object.keys(claves),
+      labels: Object.keys(palabrasClaves),
       datasets: [{
-        label: "Palabras Clave del Paseo",
-        data: Object.values(claves),
-        backgroundColor: "#9acccd",
+        label: "Palabras Clave Emocionales",
+        data: Object.values(palabrasClaves),
+        backgroundColor: "#a3c9a8"
       }]
-    },
-    options: {
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        title: { display: true, text: "Cómo me hace sentir mi lomito 🐶" }
-      }
     }
   });
 
-  // Exportar archivo
-  const resumen = Object.entries(claves).map(([palabra, cuenta]) => `${palabra}: ${cuenta}`).join("\n");
-  const blob = new Blob([resumen], { type: "text/plain;charset=utf-8" });
+  const blob = new Blob([JSON.stringify(palabrasClaves, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = "palabras_clave_lomito.txt";
+  link.href = url;
+  link.download = "palabras_clave.json";
   link.click();
+}
+
+function exportarPDF() {
+  alert("Funcionalidad de exportación PDF aún no implementada aquí.");
 }

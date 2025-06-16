@@ -17,11 +17,15 @@
       text-align: center;
       color: #d65a31;
     }
-    .emotions {
+    .emotions, .paseo-group {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
       gap: 10px;
       margin: 20px 0;
+    }
+    .section-title {
+      font-weight: bold;
+      margin-top: 1.5rem;
     }
     button {
       padding: 10px;
@@ -35,7 +39,7 @@
     button:hover {
       background-color: #ffbb9e;
     }
-    textarea, select, input[type="text"] {
+    textarea, select {
       width: 100%;
       margin-top: 15px;
       padding: 10px;
@@ -75,16 +79,15 @@
     <button onclick="registrar('Motivado 💪')">Motivado 💪</button>
   </div>
 
-  <label for="paseo">¿Saliste de paseo con tu lomito hoy?</label>
+  <div class="section-title">¿Saliste de paseo con tu lomito hoy?</div>
   <select id="paseo" onchange="mostrarComentarioPaseo()">
     <option value="">Selecciona una opción</option>
-    <option value="Sí">Sí</option>
-    <option value="No">No</option>
+    <option value="sí">Sí</option>
+    <option value="no">No</option>
   </select>
-
-  <div id="comentarioPaseoContainer" style="display:none;">
-    <p>¡Excelente! 🐾 ¿Cómo te hizo sentir el paseo?</p>
-    <input type="text" id="comentarioPaseo" placeholder="Me hizo sentir...">
+  <div id="extraComentario" style="display:none;">
+    <p>¡Excelente! Te felicito 💖<br>¿Cómo te hizo sentir el paseo con tu lomito?</p>
+    <textarea id="comentarioLomito" placeholder="Ej. Me sentí amada, menos sola, tranquila..."></textarea>
   </div>
 
   <textarea id="nota" placeholder="Escribe una nota o reflexión..."></textarea>
@@ -92,12 +95,10 @@
   <button onclick="exportarPDF()">Exportar PDF</button>
   <button onclick="mostrarGrafica()">📉 Ver Gráfica Emocional</button>
   <button onclick="exportarPalabrasClave()">🔑 Exportar Palabras Clave</button>
-
   <div class="log" id="registro"></div>
   <canvas id="grafica"></canvas>
   <canvas id="graficaClaves"></canvas>
-
-  <div class="footer">Susurros del Corazón con mi lomito 🐶</div>
+  <div class="footer">Susurros del Corazón con tu lomito 🐶</div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
