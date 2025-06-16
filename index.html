@@ -1,86 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mi Diario con Lomito</title>
+  <title>Mi Diario Emocional con Lomito</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <style>
-    body {
-      font-family: sans-serif;
-      background-color: #fff7f0;
-      color: #333;
-      margin: 0;
-      padding: 1rem;
-    }
-    h1 {
-      text-align: center;
-      color: #d65a31;
-    }
-    .calendario-container {
-      max-width: 300px;
-      margin: 1rem auto;
-    }
-    .acciones {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 10px;
-    }
-    button {
-      padding: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background-color: #ffd9c0;
-      transition: 0.2s;
-    }
-    button:hover {
-      background-color: #ffbb9e;
-    }
-    textarea {
-      width: 100%;
-      height: 80px;
-      margin-top: 15px;
-      padding: 10px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    canvas {
-      margin-top: 30px;
-      width: 100%;
-      max-width: 500px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    .footer {
-      text-align: center;
-      margin-top: 30px;
-      font-style: italic;
-      font-size: 14px;
-      color: #999;
-    }
-  </style>
 </head>
 <body>
-  <h1>¿Cómo te hizo sentir tu lomito hoy?</h1>
-  <div class="calendario-container">
-    <input type="text" id="fecha" placeholder="Selecciona una fecha">
+  <h1>¿Cómo te sientes hoy?</h1>
+  <input type="text" id="fecha" placeholder="Selecciona una fecha" readonly>
+  <div class="emotions">
+    <button onclick="registrar('Feliz 😊')">Feliz 😊</button>
+    <button onclick="registrar('Triste 😢')">Triste 😢</button>
+    <button onclick="registrar('Ansioso 😰')">Ansioso 😰</button>
+    <button onclick="registrar('Irritado 😠')">Irritado 😠</button>
+    <button onclick="registrar('En paz 🧘')">En paz 🧘</button>
+    <button onclick="registrar('Motivado 💪')">Motivado 💪</button>
   </div>
-  <div class="acciones">
-    <textarea id="nota" placeholder="Describe cómo te hizo sentir..."></textarea>
-    <button onclick="guardarNota()">Guardar Nota</button>
-    <button onclick="exportarResumen()">🔑 Exportar Palabras Clave</button>
+  <textarea id="nota" placeholder="Escribe una nota o reflexión..."></textarea>
+  <div class="walk-question">
+    <p>¿Saliste a pasear con tu lomito hoy?</p>
+    <button onclick="responderPaseo(true)">Sí</button>
+    <button onclick="responderPaseo(false)">No</button>
+    <div id="respuestaPaseo" class="respuesta"></div>
   </div>
+  <button onclick="guardarNota()">Guardar Nota</button>
+  <button onclick="exportarPalabrasClave()">Exportar Palabras Clave</button>
+  <button onclick="exportarResumenSemanal()">Resumen Semanal</button>
+  <div class="log" id="registro"></div>
   <canvas id="graficaPalabras"></canvas>
-  <div class="footer">Hecho con amor y patitas 🐾</div>
-
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <div class="footer">Susurros del Corazón 🐾</div>
   <script src="script.js"></script>
 </body>
 </html>
